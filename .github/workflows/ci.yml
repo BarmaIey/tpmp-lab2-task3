@@ -3,18 +3,30 @@ name: C Build
 on: [push, pull_request]
 
 jobs:
- build:
-  runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-  steps:
-  - name: Checkout code
-    uses: actions/checkout@v4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-  - name: Install gcc
-    run: sudo apt-get install gcc make
+    - name: Install gcc
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc make
 
-  - name: Build
-    run: make
+    - name: Show versions
+      run: |
+        gcc --version
+        make --version
 
-  - name: Run program
-    run: ./bin/program
+    - name: List source files
+      run: |
+        ls -la
+        ls -la src/ || echo "src/ directory not found"
+
+    - name: Build
+      run: make
+
+    - name: Run program
+      run: ./bin/program
